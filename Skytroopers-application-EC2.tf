@@ -53,19 +53,3 @@ resource "aws_vpc_security_group_egress_rule" "allow_all_traffic_ipv6_2" {
   cidr_ipv6         = "::/0"
   ip_protocol       = "-1" # semantically equivalent to all ports
 }
-
-resource "aws_network_interface_sg_attachment" "SG-attachment2" {
-  security_group_id    = aws_security_group.Skytroopers-sg2.id
-  network_interface_id = aws_instance.Skytroopers-application-instance.primary_network_interface_id
-}
-
-resource "aws_network_interface" "Application-NI" {
-  subnet_id       = aws_subnet.Skytroopers-priv-sub1.id
-  private_ips     = ["10.0.1.100"]
-  security_groups = [aws_security_group.Skytroopers-sg2.id]
-
-  attachment {
-    instance     = aws_instance.Skytroopers-application-instance.id
-    device_index = 1
-  }
-}
